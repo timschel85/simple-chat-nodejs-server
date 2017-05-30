@@ -1,36 +1,38 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<% include ./partials/head %>
-<link rel="stylesheet" type="text/css" href="chatroom.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
-<script type="text/javascript">
-var socket = io()
+    <% include ./partials/head %>
+        <link rel="stylesheet" type="text/css" href="chatroom.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
+        <script type="text/javascript">
+            var socket = io()
 
-$(function() {
+            $(function () {
 
-    $('form#message-form').on('submit', function(e){
-        e.preventDefault()
-        var m = $('input#m')
-        socket.emit('fromclient', m.val())
-        m.val('')
-        m.focus()
-    })
+                $('form#message-form').on('submit', function (e) {
+                    e.preventDefault()
+                    var m = $('input#m')
+                    socket.emit('fromclient', m.val())
+                    m.val('')
+                    m.focus()
+                })
 
-    socket.on('toclient', function(data){
-        $('ul#message-list').append($('<li></li>').text(data))
-        $('ul#message-list').animate({
-            scrollTop: $('ul#message-list').get(0).scrollHeight
-        }, 500);
-    })
-})
-</script>
+                socket.on('toclient', function (data) {
+                    $('ul#message-list').append($('<li></li>').text(data))
+                    $('ul#message-list').animate({
+                        scrollTop: $('ul#message-list').get(0).scrollHeight
+                    }, 500);
+                })
+            })
+        </script>
 </head>
+
 <body>
     <h2>Room Name</h2>
     <ul id="message-list" style="height:200px"></ul>
     </ul>
-    <form  id="message-form">
+    <form id="message-form">
         <div class="input-group">
             <input id="m" class="form-control" type="text">
             <div class="input-group-btn">
@@ -39,4 +41,5 @@ $(function() {
         </div>
     </form>
 </body>
+
 </html>

@@ -3,11 +3,9 @@ const app = express()
 const http = require('http').Server(app)
 const io = require('socket.io')(http)
 
-const path = require('path')
 const config = require('./config')
 
 app.set('view engine', 'ejs')
-app.use(express.static(path.join(__dirname, '/public/css')));
 
 io.on('connection', (socket)=>{
     console.log('A Client has connected.')
