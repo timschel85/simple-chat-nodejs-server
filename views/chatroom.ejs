@@ -3,7 +3,7 @@
 
 <head>
     <% include ./partials/head %>
-        <link rel="stylesheet" type="text/css" href="chatroom.css">
+        <link rel="stylesheet" type="text/css" href="css/chatroom.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
         <script type="text/javascript">
             var socket = io()
@@ -17,29 +17,53 @@
                     m.val('')
                     m.focus()
                 })
-
-                socket.on('toclient', function (data) {
-                    $('ul#message-list').append($('<li></li>').text(data))
-                    $('ul#message-list').animate({
-                        scrollTop: $('ul#message-list').get(0).scrollHeight
-                    }, 500);
+                // message from myself
+                socket.on('toclient tomyself', function (data) {
+                    $('div#message-list')
+                        .append($('<div class="my-message-box"></div>')
+                        .append($('<span>시간</span>'))
+                        .append($('<span class="my-message"></span>').text(data)))
+                        .animate({
+                         scrollTop: $('div#message-list').get(0).scrollHeight
+                    }, 500)
+                })
+                // message from friends
+                socket.on('toclient tofriends', function (data) {
+                    $('div#message-list')
+                        .append($('<div class="friends-message-box"></div>')
+                        .append($('<span class="friends-message"></span>').text(data))
+                        .append($('<span>시간</span>')))
+                        .animate({
+                         scrollTop: $('div#message-list').get(0).scrollHeight
+                    }, 500)
                 })
             })
         </script>
 </head>
 
 <body>
-    <h2>Room Name</h2>
-    <ul id="message-list" style="height:200px"></ul>
-    </ul>
-    <form id="message-form">
-        <div class="input-group">
-            <input id="m" class="form-control" type="text">
-            <div class="input-group-btn">
-                <button type="submit" class="btn btn-info">Send</button>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+                <h2>Room Name</h2>
+                <div id="message-list" class="scroll-list"></ul>
+                </div>
+                <form id="message-form">
+                    <div class="input-group">
+                        <input id="m" class="form-control" type="text">
+                        <div class="input-group-btn">
+                            <button type="submit" class="btn btn-info">Send</button>
+                        </div>
+                    </div>
+                </form>
+            </div><!--div.col-->
+            <div class="col-sm-4">
+                <h2>Room List</h2>
+                <ul id="room-list" class="scroll-list"></ul>
             </div>
-        </div>
-    </form>
+        </div><!--div.row-->
+    </div><!--div.container-->
+
 </body>
 
 </html>

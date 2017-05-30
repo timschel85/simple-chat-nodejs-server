@@ -6,14 +6,15 @@ const io = require('socket.io')(http)
 const config = require('./config')
 
 app.set('view engine', 'ejs')
+app.use(express.static('public'))
 
 io.on('connection', (socket)=>{
     console.log('A Client has connected.')
 
     socket.on('fromclient', (data)=>{
         console.log("[From Client] : " + data)
-        socket.emit('toclient', data) // send the message to the client who send the message
-        socket.broadcast.emit('toclient', data)
+        socket.emit('toclient tomyself', data) // send the message to the client who send the message
+        socket.broadcast.emit('toclient tofriends', data)
     })
 
     socket.on('disconnect', ()=>{

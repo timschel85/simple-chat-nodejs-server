@@ -1,4 +1,48 @@
-ul#message-list {
+div.scroll-list {
+    height:300px;
     overflow-y: scroll;
     list-style:none;
+    position:relative;
+    background: #a0c0d7;
+    border: 1px solid lightgray;
 }
+.my-message-box {
+    margin-top: 1em;
+    float: right;
+    clear: both;
+}
+    .my-message {
+        clear:both;
+        padding: 0.5em;
+        margin-right: 1.5em;
+        background-color: #ffec42;
+        border-radius: 5px;
+    }
+        .my-message::after {
+            content: '';
+            position: absolute;
+            border-bottom: 0.5em solid transparent;
+            border-left: 1em solid #ffec42;
+            border-top: 0.5em solid transparent;
+        }
+
+.friends-message-box {
+    margin-top: 1em;
+    float: left;
+    clear: both;
+}
+    .friends-message {
+        clear:both;
+        padding: 0.5em;
+        margin-left: 1.2em;
+        background-color: white;
+        border-radius: 5px;
+    }
+        .friends-message::before {
+            content: '';
+            position: absolute;
+            margin-left:-1em;
+            border-bottom: 0.5em solid transparent;
+            border-right: 1em solid white;
+            border-top: 0.5em solid transparent;
+        }
