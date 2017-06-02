@@ -39,11 +39,13 @@
                 })
                 // add  new comer's nickname to the friends list
                 socket.on('freindsList', function(data) {
-                    console.log(data.friends)
+                    var mySocketIdIndex = data.id.indexOf(socket.id)
                     $('ul#friend-list').empty()
-                    data.friends.forEach(function(nickname) {
-                        // if(index===0) value = value+="(me)"
-                        $('ul#friend-list').append($('<li></li>').text(nickname))
+                    data.nickname.forEach(function(nickname, index) {
+                        if(index===mySocketIdIndex)
+                            $('ul#friend-list').append($('<li></li>').text(nickname))
+                        else
+                            $('ul#friend-list').append($('<li></li>').text(nickname+"(me)").css('font-weight', 'bold'))
                     })
                 })
             })

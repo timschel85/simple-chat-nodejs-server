@@ -11,6 +11,17 @@ app.use(express.static('public'))
 var socket_ids = [];
 var i=0;
 
+const passFriendsList = (socket) => {
+    socket.emit('freindsList', { 
+        nickname : Object.keys(socket_ids), 
+        id : Object.keys(socket_ids).map(nickname=>socket_ids[nickname])
+    })
+        socket.broadcast.emit('freindsList', { 
+        nickname : Object.keys(socket_ids), 
+        id : Object.keys(socket_ids).map(nickname=>socket_ids[nickname])
+    })
+}
+
 io.on('connection', (socket)=>{
     console.log('A Client has connected.')
     socket.nickname = "GUEST-"+i;
@@ -18,8 +29,7 @@ io.on('connection', (socket)=>{
     socket_ids[socket.nickname] = socket.id;
     console.log("### List of friends who join this room ###")
     console.log(socket_ids)
-    socket.emit('freindsList', {friends:Object.keys(socket_ids)})
-    socket.broadcast.emit('freindsList', {friends:Object.keys(socket_ids)})
+    passFriendsList(socket);
 
     socket.on('fromClient', (data)=>{
         console.log("[From "+socket.id+"] : " + data)
@@ -32,9 +42,7 @@ io.on('connection', (socket)=>{
         delete socket_ids[socket.nickname]
         console.log("### List of friends who join this room ###")
         console.log(socket_ids)
-        
-        socket.emit('freindsList',  {friends:Object.keys(socket_ids)})
-        socket.broadcast.emit('freindsList', {friends:Object.keys(socket_ids)})
+        passFriendsList(socket);
     })
 })
 
