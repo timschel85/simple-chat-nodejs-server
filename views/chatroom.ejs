@@ -13,12 +13,12 @@
                 $('form#message-form').on('submit', function (e) {
                     e.preventDefault()
                     var m = $('input#m')
-                    socket.emit('fromclient', m.val())
+                    socket.emit('fromClient', m.val())
                     m.val('')
                     m.focus()
                 })
                 // message from myself
-                socket.on('toclient tomyself', function (data) {
+                socket.on('toClient toMyself', function (data) {
                     $('div#message-list')
                         .append($('<div class="my-message-box"></div>')
                         .append($('<span>시간</span>'))
@@ -28,7 +28,7 @@
                     }, 500)
                 })
                 // message from friends
-                socket.on('toclient tofriends', function (data) {
+                socket.on('toClient toFriends', function (data) {
                     $('div#message-list')
                         .append($('<div class="friends-message-box"></div>')
                         .append($('<span class="friends-message"></span>').text(data))
@@ -37,6 +37,15 @@
                          scrollTop: $('div#message-list').get(0).scrollHeight
                     }, 500)
                 })
+                // add  new comer's nickname to the friends list
+                socket.on('freindsList', function(data) {
+                    console.log(data.friends)
+                    $('ul#friend-list').empty()
+                    data.friends.forEach(function(nickname) {
+                        // if(index===0) value = value+="(me)"
+                        $('ul#friend-list').append($('<li></li>').text(nickname))
+                    })
+                })
             })
         </script>
 </head>
@@ -44,7 +53,7 @@
 <body>
     <div class="container">
         <div class="row">
-            <div class="col-sm-8">
+            <div class="col-sm-8 col-xs-12">
                 <h2>Room Name</h2>
                 <div id="message-list" class="scroll-list"></ul>
                 </div>
@@ -57,13 +66,12 @@
                     </div>
                 </form>
             </div><!--div.col-->
-            <div class="col-sm-4">
-                <h2>Room List</h2>
-                <ul id="room-list" class="scroll-list"></ul>
+            <div class="col-sm-4 col-xs-12">
+                <h2>Friends List</h2>
+                <ul id="friend-list" class="scroll-list"></ul>
             </div>
         </div><!--div.row-->
     </div><!--div.container-->
 
 </body>
-
 </html>
