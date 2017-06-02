@@ -21,7 +21,7 @@
                 socket.on('toClient toMyself', function (data) {
                     $('div#message-list')
                         .append($('<div class="my-message-box"></div>')
-                        .append($('<span>시간</span>'))
+                        .append($('<span>time</span>'))
                         .append($('<span class="my-message"></span>').text(data)))
                         .animate({
                          scrollTop: $('div#message-list').get(0).scrollHeight
@@ -32,7 +32,7 @@
                     $('div#message-list')
                         .append($('<div class="friends-message-box"></div>')
                         .append($('<span class="friends-message"></span>').text(data))
-                        .append($('<span>시간</span>')))
+                        .append($('<span>time</span>')))
                         .animate({
                          scrollTop: $('div#message-list').get(0).scrollHeight
                     }, 500)
@@ -45,7 +45,8 @@
                         if(index===mySocketIdIndex)
                             $('ul#friend-list').append($('<li></li>').text(nickname))
                         else
-                            $('ul#friend-list').append($('<li></li>').text(nickname+"(me)").css('font-weight', 'bold'))
+                            $('ul#friend-list').append($('<li></li>').text(nickname+"(me)")
+                            .css('font-weight', 'bold'))
                     })
                 })
             })

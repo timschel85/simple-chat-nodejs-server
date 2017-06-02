@@ -23,8 +23,8 @@ const passFriendsList = (socket) => {
 }
 
 io.on('connection', (socket)=>{
-    console.log('A Client has connected.')
     socket.nickname = "GUEST-"+i;
+    console.log(socket.nickname+' has connected.')
     i++;
     socket_ids[socket.nickname] = socket.id;
     console.log("### List of friends who join this room ###")
@@ -38,7 +38,7 @@ io.on('connection', (socket)=>{
     })
 
     socket.on('disconnect', ()=>{
-        console.log(socket.id+' has disconnected.')
+        console.log(socket.nickname+' has disconnected.')
         delete socket_ids[socket.nickname]
         console.log("### List of friends who join this room ###")
         console.log(socket_ids)
