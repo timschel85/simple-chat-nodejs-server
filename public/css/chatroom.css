@@ -47,5 +47,6 @@ div.scroll-list {
             border-top: 0.5em solid transparent;
         }
 .friends-name {
-    margin-left: 1.2em;
+    margin-left: 1.4em;
+    margin-bottom : 5px;
 }
