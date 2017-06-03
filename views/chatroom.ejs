@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <% include ./partials/head %>
         <link rel="stylesheet" type="text/css" href="css/chatroom.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
         <script type="text/javascript">
             var socket = io()
+            var nickname
 
             $(function () {
 
                 $('form#message-form').on('submit', function (e) {
                     e.preventDefault()
                     var m = $('input#m')
-                    socket.emit('fromClient', m.val())
+                    socket.emit('fromClient', 
+                    {
+                        nickname:nickname,
+                        message:m.val()
+                    })
                     m.val('')
                     m.focus()
                 })
@@ -22,7 +26,7 @@
                     $('div#message-list')
                         .append($('<div class="my-message-box"></div>')
                         .append($('<span>time</span>'))
-                        .append($('<span class="my-message"></span>').text(data)))
+                        .append($('<span class="my-message"></span>').text(data.message)))
                         .animate({
                          scrollTop: $('div#message-list').get(0).scrollHeight
                     }, 500)
@@ -31,7 +35,8 @@
                 socket.on('toClient toFriends', function (data) {
                     $('div#message-list')
                         .append($('<div class="friends-message-box"></div>')
-                        .append($('<span class="friends-message"></span>').text(data))
+                        .append($('<p class="friends-name"></p>').text(data.nickname))
+                        .append($('<span class="friends-message"></span>').text(data.message))
                         .append($('<span>time</span>')))
                         .animate({
                          scrollTop: $('div#message-list').get(0).scrollHeight
@@ -40,13 +45,15 @@
                 // add  new comer's nickname to the friends list
                 socket.on('freindsList', function(data) {
                     var mySocketIdIndex = data.id.indexOf(socket.id)
+                    nickname = data.nickname[mySocketIdIndex];
+                    console.log(nickname)
                     $('ul#friend-list').empty()
                     data.nickname.forEach(function(nickname, index) {
                         if(index===mySocketIdIndex)
-                            $('ul#friend-list').append($('<li></li>').text(nickname))
-                        else
                             $('ul#friend-list').append($('<li></li>').text(nickname+"(me)")
-                            .css('font-weight', 'bold'))
+                                .css('font-weight', 'bold'))
+                        else
+                             $('ul#friend-list').append($('<li></li>').text(nickname))                           
                     })
                 })
             })

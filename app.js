@@ -32,7 +32,7 @@ io.on('connection', (socket)=>{
     passFriendsList(socket);
 
     socket.on('fromClient', (data)=>{
-        console.log("[From "+socket.id+"] : " + data)
+        console.log("[From "+data.nickname+"] : " + data.message)
         socket.emit('toClient toMyself', data) // send the message to the client who send the message
         socket.broadcast.emit('toClient toFriends', data)
     })
