@@ -20,6 +20,10 @@ $.fn.selectRange = function(start, end) {
 
 $(function () {
 
+    $('button#back-to-lobby').on('click', function(){
+        $('#chatroomCarousel').carousel('prev')
+    })
+
     $('form#message-form').on('submit', function (e) {
         e.preventDefault()
         var m = $('input#m')
@@ -66,17 +70,20 @@ $(function () {
             if(index===mySocketIdIndex) {
                 $('ul#friend-list').append($('<div class="dropdown"></div>'))
                 $('ul#friend-list > div.dropdown')
-                .append($('<li id="my-nickname-menu" class="dropdown-toggle" data-toggle="dropdown"></li>')
-                    .text(nickname+"(me)").css('font-weight', 'bold'))
+                    .append($('<li id="my-nickname-menu" class="dropdown-toggle" data-toggle="dropdown"></li>')
+                      .text(nickname+"(me)").css('font-weight', 'bold'))
+
                 $('ul#friend-list > div.dropdown')
                 .append($('<ul class="dropdown-menu" role="menu" aria-labelledby="my-nickname-menu"><li id="change-my-nickname" role="presentation"><a role="menuitem" tabindex="-1">Change my nickname</a></li></ul></div>'))
+                $('#my-nickname-menu').dropdown()
+
                 // change my nick name
                 $('li#change-my-nickname').on('click', function() {
-                    $('#myModal').modal('toggle')
+                    $('#myModal').appendTo("body").modal('show');
                 })
             }
             else
-                    $('ul#friend-list').append($('<li></li>').text(nickname))                           
+                $('ul#friend-list').append($('<li></li>').text(nickname))                           
         })
     })
 
@@ -92,4 +99,5 @@ $(function () {
         socket.emit('changeNickname', nickname)
         $('#myModal').modal('toggle')
     })
+
 })

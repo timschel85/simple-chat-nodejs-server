@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ./partials/head %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
+ </head>
+<body>
+    <div id="chatroomCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner">
+    <div class="item active">
+        <% include lobby %>
+    </div><!-- item active -->
+    <div class="item">
+        <% include chatroom %>
+    </div><!-- item -->
+  </div><!--carousel-inner-->
+</div>
+</body>
+</html>

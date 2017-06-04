@@ -8,7 +8,8 @@ const config = require('./config')
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
-var nicknames = [];
+var rooms = []
+var nicknames = []
 var i=0;
 
 const passFriendsList = (socket) => {
@@ -53,7 +54,7 @@ io.on('connection', (socket)=>{
 })
 
 app.get('/', (req, res)=>{
-    res.render('chatroom')
+    res.render('index')
 
 })
 
