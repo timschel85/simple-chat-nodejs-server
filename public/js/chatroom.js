@@ -1,6 +1,22 @@
 var socket = io()
 var nickname
 
+$.fn.selectRange = function(start, end) {
+    console.log("selectRange()")
+    return this.each(function() {
+        if (this.setSelectionRange) {
+            this.focus();
+            this.setSelectionRange(start, end);
+        } else if (this.createTextRange) {
+            var range = this.createTextRange();
+            range.collapse(true);
+            range.moveEnd('character', end);
+            range.moveStart('character', start);
+            range.select();
+        }
+    });
+};
+
 $(function () {
 
     $('form#message-form').on('submit', function (e) {
@@ -44,11 +60,31 @@ $(function () {
         data.nickname.forEach(function(nickname, index) {
             if(index===mySocketIdIndex) {
                 $('ul#friend-list').append($('<div class="dropdown"></div>'))
-                $('ul#friend-list > div.dropdown').append($('<li id="my-nickname-menu" class="dropdown-toggle" data-toggle="dropdown"></li>').text(nickname+"(me)").css('font-weight', 'bold'))
-                $('ul#friend-list > div.dropdown').append($('<ul class="dropdown-menu" role="menu" aria-labelledby="my-nickname-menu"><li role="presentation"><a id="change-my-nickname" role="menuitem" tabindex="-1">Change my nickname</a></li></ul></div>'))
+                $('ul#friend-list > div.dropdown')
+                .append($('<li id="my-nickname-menu" class="dropdown-toggle" data-toggle="dropdown"></li>')
+                    .text(nickname+"(me)").css('font-weight', 'bold'))
+                $('ul#friend-list > div.dropdown')
+                .append($('<ul class="dropdown-menu" role="menu" aria-labelledby="my-nickname-menu"><li id="change-my-nickname" role="presentation"><a role="menuitem" tabindex="-1">Change my nickname</a></li></ul></div>'))
+                // change my nick name
+                $('li#change-my-nickname').on('click', function() {
+                    $('#myModal').modal('toggle')
+                })
             }
             else
                     $('ul#friend-list').append($('<li></li>').text(nickname))                           
         })
+    })
+
+    // after my-nickname modal shown
+    $('#myModal').on('shown.bs.modal', function() {
+        $('input#my-nickname').val(nickname).focus().selectRange(0,nickname.length)
+    })
+
+    $('form#change-my-nickname-form').on('submit', function(e) {
+        e.preventDefault()
+        console.log('submit')
+        nickname = $('input#my-nickname').val();
+        socket.emit('changeNickname', nickname)
+        $('#myModal').modal('toggle')
     })
 })

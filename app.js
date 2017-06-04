@@ -8,17 +8,17 @@ const config = require('./config')
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
-var socket_ids = [];
+var nicknames = [];
 var i=0;
 
 const passFriendsList = (socket) => {
     socket.emit('freindsList', { 
-        nickname : Object.keys(socket_ids), 
-        id : Object.keys(socket_ids).map(nickname=>socket_ids[nickname])
+        id : Object.keys(nicknames), 
+        nickname : Object.keys(nicknames).map(id=>nicknames[id])
     })
         socket.broadcast.emit('freindsList', { 
-        nickname : Object.keys(socket_ids), 
-        id : Object.keys(socket_ids).map(nickname=>socket_ids[nickname])
+        id : Object.keys(nicknames), 
+        nickname : Object.keys(nicknames).map(id=>nicknames[id])
     })
 }
 
@@ -26,9 +26,9 @@ io.on('connection', (socket)=>{
     socket.nickname = "GUEST-"+i;
     console.log(socket.nickname+' has connected.')
     i++;
-    socket_ids[socket.nickname] = socket.id;
+    nicknames[socket.id] = socket.nickname;
     console.log("### List of friends who join this room ###")
-    console.log(socket_ids)
+    console.log(nicknames)
     passFriendsList(socket);
 
     socket.on('fromClient', (data)=>{
@@ -37,11 +37,17 @@ io.on('connection', (socket)=>{
         socket.broadcast.emit('toClient toFriends', data)
     })
 
+    socket.on('changeNickname', (newNickname)=>{        
+        socket.nickname = newNickname;
+        nicknames[socket.id] = newNickname
+        passFriendsList(socket)
+    })
+
     socket.on('disconnect', ()=>{
         console.log(socket.nickname+' has disconnected.')
-        delete socket_ids[socket.nickname]
+        delete nicknames[socket.id]
         console.log("### List of friends who join this room ###")
-        console.log(socket_ids)
+        console.log(nicknames)
         passFriendsList(socket);
     })
 })
