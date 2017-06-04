@@ -1,5 +1,6 @@
 var socket = io()
 var nickname
+var profileImage = "/images/profile.jpg"
 
 $.fn.selectRange = function(start, end) {
     console.log("selectRange()")
@@ -43,10 +44,14 @@ $(function () {
     // message from friends
     socket.on('toClient toFriends', function (data) {
         $('div#message-list')
-            .append($('<div class="friends-message-box"></div>')
-            .append($('<p class="friends-name"></p>').text(data.nickname))
-            .append($('<span class="friends-message"></span>').text(data.message))
-            .append($('<span>time</span>')))
+            .append($('<div></div>').addClass("friends-data-box")
+                .append($('<img/>').attr('src', profileImage).addClass('img-circle'))
+                .append($('<div></div>').addClass("friends-message-box")
+                    .append($('<p class="friends-name"></p>').text(data.nickname))
+                    .append($('<span class="friends-message"></span>').text(data.message))
+                    .append($('<span>time</span>'))
+                )
+            )
             .animate({
                 scrollTop: $('div#message-list').get(0).scrollHeight
         }, 500)

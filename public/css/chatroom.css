@@ -26,27 +26,35 @@ div.scroll-list {
             border-top: 0.5em solid transparent;
         }
 
-.friends-message-box {
+.friends-data-box {
     margin-top: 1em;
     float: left;
-    clear: both;
+    clear: left;
+    
 }
-    .friends-message {
-        clear:both;
-        padding: 0.5em;
-        margin-left: 1.2em;
-        background-color: white;
-        border-radius: 5px;
+    .friends-data-box > img {
+        margin-top: .7em;
+        height: 40px;
     }
-        .friends-message::before {
-            content: '';
-            position: absolute;
-            margin-left:-1em;
-            border-bottom: 0.5em solid transparent;
-            border-right: 1em solid white;
-            border-top: 0.5em solid transparent;
+    .friends-message-box {
+        float: right;
+    }
+        .friends-message {
+            clear:both;
+            padding: 0.5em;
+            margin-left: 1.2em;
+            background-color: white;
+            border-radius: 5px;
         }
-.friends-name {
-    margin-left: 1.4em;
-    margin-bottom : 5px;
-}
+            .friends-message::before {
+                content: '';
+                position: absolute;
+                margin-left:-1em;
+                border-bottom: 0.5em solid transparent;
+                border-right: 1em solid white;
+                border-top: 0.5em solid transparent;
+            }
+    .friends-name {
+        margin-left: 1.4em;
+        margin-bottom : 5px;
+    }
