@@ -3,15 +3,17 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-8 col-xs-12">
-            <h2><button class="btn btn-default">
-                <i class="fa fa-chevron-left"></i> LogOut</button> Rooms List</h2>
+            <h4>
+                <button class="btn btn-default">
+                <i class="fa fa-chevron-left"></i> LogOut
+                </button><b> Rooms List</b>
+                <button id="create-room" class="btn btn-success" style="float:right"> Create a Room
+                </button>
+            </h4>
             <ul id="rooms-list">
-                <li class="room-name">방1</li>
-                <li class="room-name">방2</li>
-                <li class="room-name">방3</li>
-                <li class="room-name">방4</li>
-                <li class="room-name">방5</li>
+                <li>There is no room where you can chat with others. First, create a room.</li>
             </ul>
         </div><!--col-sm-8-->
     </div><!--row-->
+    <% include ./partials/createRoomModal %>
 </div><!-- container -->

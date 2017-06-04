@@ -1,6 +1,4 @@
-var socket = io()
-var nickname
-var profileImage = "/images/profile.jpg"
+
 
 $.fn.selectRange = function(start, end) {
     console.log("selectRange()")
@@ -21,7 +19,12 @@ $.fn.selectRange = function(start, end) {
 $(function () {
 
     $('button#back-to-lobby').on('click', function(){
+        // slide to lobby page
         $('#chatroomCarousel').carousel('prev')
+        // make rooms list clickable
+        $('li.room-name').each(function() {
+            $(this).css('pointer-events','auto')
+        })
     })
 
     $('form#message-form').on('submit', function (e) {
@@ -29,6 +32,7 @@ $(function () {
         var m = $('input#m')
         socket.emit('fromClient', 
         {
+            roomId:roomId,
             nickname:nickname,
             message:m.val()
         })
@@ -79,7 +83,7 @@ $(function () {
 
                 // change my nick name
                 $('li#change-my-nickname').on('click', function() {
-                    $('#myModal').appendTo("body").modal('show');
+                    $('#changeNicknameModal').appendTo("body").modal('show');
                 })
             }
             else
@@ -88,16 +92,15 @@ $(function () {
     })
 
     // after my-nickname modal shown
-    $('#myModal').on('shown.bs.modal', function() {
+    $('#changeNicknameModal').on('shown.bs.modal', function() {
         $('input#my-nickname').val(nickname).focus().selectRange(0,nickname.length)
     })
 
     $('form#change-my-nickname-form').on('submit', function(e) {
         e.preventDefault()
-        console.log('submit')
         nickname = $('input#my-nickname').val();
         socket.emit('changeNickname', nickname)
-        $('#myModal').modal('toggle')
+        $('#changeNicknameModal').modal('toggle')
     })
 
 })

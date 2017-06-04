@@ -32,10 +32,16 @@ io.on('connection', (socket)=>{
     console.log(nicknames)
     passFriendsList(socket);
 
+    socket.on('joinRoom', (roomId)=>{
+        console.log(socket.nickname+" has joined a room["+roomId+"].")
+        socket.roomId = roomId
+        socket.join(roomId)
+    })
+
     socket.on('fromClient', (data)=>{
-        console.log("[From "+data.nickname+"] : " + data.message)
+        console.log("[From "+data.nickname+" in a room["+data.roomId+"]] : " + data.message)
         socket.emit('toClient toMyself', data) // send the message to the client who send the message
-        socket.broadcast.emit('toClient toFriends', data)
+        socket.broadcast.in(data.roomId).emit('toClient toFriends', data)
     })
 
     socket.on('changeNickname', (newNickname)=>{        

@@ -16,3 +16,6 @@ ul#rooms-list {
     li.room-name:active {
         background: #ffec42;
     }
+    li.room-name.selected {
+        background: #ffec42;
+    }
