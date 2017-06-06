@@ -1,4 +1,4 @@
 var socket = io()
 var nickname
-var roomId
+var myRoom
 var profileImage = "/images/profile.jpg"

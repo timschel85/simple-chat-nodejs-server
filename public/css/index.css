@@ -1,2 +1,12 @@
-body {
+
+
+div.scroll-list {
+    height:60vh;
+    overflow-y: scroll;
+    list-style:none;
+    position:relative;
+    border: 1px solid lightgray;
+}
+.blue {
+    background: #a0c0d7;
 }

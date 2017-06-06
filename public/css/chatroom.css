@@ -1,11 +1,4 @@
-div.scroll-list {
-    height:300px;
-    overflow-y: scroll;
-    list-style:none;
-    position:relative;
-    background: #a0c0d7;
-    border: 1px solid lightgray;
-}
+
 .my-message-box {
     margin-top: 1em;
     float: right;

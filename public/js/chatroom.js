@@ -17,11 +17,16 @@ $.fn.selectRange = function(start, end) {
 };
 
 $(function () {
-
+    // click 'Lobby'
     $('button#back-to-lobby').on('click', function(){
+        socket.emit("leaveRoom")
+    })
+
+    socket.on('backToLobby', function() {
         // slide to lobby page
         $('#chatroomCarousel').carousel('prev')
         // make rooms list clickable
+        retrieveRoomsList()
         $('li.room-name').each(function() {
             $(this).css('pointer-events','auto')
         })
@@ -32,7 +37,7 @@ $(function () {
         var m = $('input#m')
         socket.emit('fromClient', 
         {
-            roomId:roomId,
+            roomId:myRoom._id,
             nickname:nickname,
             message:m.val()
         })
