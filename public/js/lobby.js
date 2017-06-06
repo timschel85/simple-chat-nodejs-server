@@ -69,7 +69,6 @@ $(function () {
                 $('#createRoomModal').modal('hide')
                 if(status==="success") {
                     $('ul#rooms-list')
-                        .text("")
                         .prepend($('<li></li>')
                         .addClass('room-name')
                         .attr('id', room._id)
