@@ -69,18 +69,22 @@ $(function () {
                 $('#createRoomModal').modal('hide')
                 if(status==="success") {
                     $('ul#rooms-list')
-                        .prepend($('<li></li>')
+                    .prepend($('<li></li>').css({'opacity':0, 'height':'0px'})
                         .addClass('room-name')
                         .attr('id', room._id)
                         .append($('<div></div>')
                         .append($('<span></span>').addClass('room-name').text(room.name))
                         .append($('<span></span>').addClass('date').text(room.createAt)))
-                        .animate({backgroundColor:"#ffec42"}, 1000 , function() {
-                            myRoom = room
-                            console.log(myRoom)
-                            $('span#room-name').text(room.name)
-                            $('#chatroomCarousel').carousel('next')
-                            socket.emit('joinRoom', $(this).attr('id'))
+                        .animate({ height:'3.5em'},  1000, function(){
+                            $(this).animate({backgroundColor:"#ffec42"}, 1000 , function() {
+                                myRoom = room
+                                console.log(myRoom)
+                                $('span#room-name').text(room.name)
+                                $('#chatroomCarousel').carousel('next')
+                                socket.emit('joinRoom', $(this).attr('id'))
+                            })
+                        })
+                        .animate({opacity:1}, {duration:2000, queue:false}, function() {
                         })
                     )
                 }
